@@ -1,0 +1,43 @@
+name: React Frontend CD
+
+on:
+  push:
+    branches:
+      - main
+  # workflow_run:
+  #   workflows: ['React Frontend CI'] # ci.yml에서 설정한 이름과 동일해야 함
+  #   types:
+  #     - completed
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'  # Java 11로 설정. 프로젝트에 맞게 수정 가능.
+
+      - name: Build the Spring application
+        run: ./gradlew build -x test  # Gradle로 빌드 (테스트 제외)
+
+      - name: Kill existing Java processes (if running)
+        run: |
+          # PowerShell로 프로세스 확인 및 종료
+          $process = Get-Process | Where-Object { $_.ProcessName -eq "java" }
+          if ($process) {
+            Write-Host "Killing existing Java process..."
+            Stop-Process -Id $process.Id
+          } else {
+            Write-Host "No existing Java process found."
+          }
+      - name: Start Spring server using Java (Background)
+        run: |
+          # Start the Spring Boot application in the background
+          Start-Process powershell -ArgumentList "java -jar build/libs/demo-0.0.1-SNAPSHOT.jar"
+          exit 0  # Exit the GitHub Actions session, allowing the Spring server to continue running
+
