@@ -1,4 +1,4 @@
-name: React Frontend CD
+name: BE CD
 
 on:
   push:
