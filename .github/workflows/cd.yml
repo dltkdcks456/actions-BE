@@ -34,4 +34,5 @@ jobs:
       - name: Execute start-server.ps1 script
         run: |
           # PowerShell 스크립트 실행
+          echo "Current directory: $PWD"
           powershell -ExecutionPolicy Bypass -File ./start-server.ps1
