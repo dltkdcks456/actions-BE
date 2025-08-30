@@ -35,4 +35,4 @@ jobs:
         run: |
           # Start the Spring Boot application in the background
           Start-Process powershell -ArgumentList "java -jar build/libs/demo-0.0.1-SNAPSHOT.jar"
-          exit 0  # Exit the GitHub Actions session, allowing the Spring server to continue running
+          Start-Sleep -Seconds 30
