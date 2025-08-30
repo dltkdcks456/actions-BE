@@ -33,6 +33,10 @@ jobs:
 
       - name: Execute start-server.ps1 script
         run: |
+          Start-Job -ScriptBlock {
+          java -jar build/libs/demo-0.0.1-SNAPSHOT.jar
+          }
+          Start-Sleep -Seconds 30  # Optional, to wait for the app to start
           # PowerShell 스크립트 실행
-          echo "Current directory: $PWD"
-          powershell -ExecutionPolicy Bypass -File ./start-server.ps1
+          # echo "Current directory: $PWD"
+          # powershell -ExecutionPolicy Bypass -File ./start-server.ps1
