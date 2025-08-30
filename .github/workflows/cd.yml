@@ -31,8 +31,7 @@ jobs:
             Write-Host "No existing Java process found."
           }
 
-      - name: Start Spring server using Java (Background)
+      - name: Execute start-server.ps1 script
         run: |
-          # Start the Spring Boot application in the background
-          Start-Process java -ArgumentList "-jar build/libs/demo-0.0.1-SNAPSHOT.jar"
-          exit 0
+          # PowerShell 스크립트 실행
+          powershell -ExecutionPolicy Bypass -File ./start-server.ps1
