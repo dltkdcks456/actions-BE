@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build the Spring application
-        run: ./gradlew build -x test # Gradle로 빌드 (테스트 제외)
+        run: ./gradlew build -x test # Gradle로  빌드 (테스트 제외)
 
       - name: Kill existing Java processes (if running)
         run: |
