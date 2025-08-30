@@ -7,7 +7,7 @@ on:
   # workflow_run:
   #   workflows: ['React Frontend CI'] # ci.yml에서 설정한 이름과 동일해야 함
   #   types:
-  #     - completed
+  #     - completed 
 
 jobs:
   deploy:
