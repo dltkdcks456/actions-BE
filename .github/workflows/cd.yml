@@ -18,25 +18,13 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build the Spring application
-        run: ./gradlew build -x test # Gradle로  빌드 (테스트 제외)
+        run: ./gradlew clean build -x test # Gradle로  빌드 (테스트 제외)
 
-      - name: Kill existing Java processes (if running)
-        run: |
-          # PowerShell로 프로세스 확인 및 종료
-          $process = Get-Process | Where-Object { $_.ProcessName -eq "java" }
-          if ($process) {
-            Write-Host "Killing existing Java process..."
-            Stop-Process -Id $process.Id
-          } else {
-            Write-Host "No existing Java process found."
-          }
+      - name: Docker Build
+        run: docker build -t my-server-image .
 
-      - name: Execute start-server.ps1 script
+      - name: Restart Container
         run: |
-          Start-Job -ScriptBlock {
-          java -jar build/libs/demo-0.0.1-SNAPSHOT.jar
-          }
-          Start-Sleep -Seconds 30  # Optional, to wait for the app to start
-          # PowerShell 스크립트 실행
-          # echo "Current directory: $PWD"
-          # powershell -ExecutionPolicy Bypass -File ./start-server.ps1
+          docker stop my-server || true
+          docker rm my-server || true
+          docker run -d -p 8080:8080 --name my-server my-server-image
