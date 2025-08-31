@@ -24,10 +24,10 @@ jobs:
         run: ./gradlew clean build -x test # Gradle로  빌드 (테스트 제외)
 
       - name: Docker Build
-        run: docker build -t my-server-image .
+        run: sudo docker build -t my-server-image .
 
       - name: Restart Container
         run: |
-          docker stop my-server || true
-          docker rm my-server || true
-          docker run -d -p 8080:8080 --name my-server my-server-image
+          sudo docker stop my-server || true
+          sudo docker rm my-server || true
+          sudo docker run -d -p 8080:8080 --name my-server my-server-image
